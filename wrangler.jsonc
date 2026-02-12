@@ -1,21 +1,15 @@
 /**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
+ * Cloudflare Pages Configuration
+ * https://developers.cloudflare.com/pages/
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "my-react-app",
-	"main": "worker/index.ts",
+	"name": "ivan-photographer-portfolio",
+	"pages_build_output_dir": "dist",
 	"compatibility_date": "2026-02-05",
-	"assets": {
-		"not_found_handling": "single-page-application"
-	},
 	"observability": {
 		"enabled": true
-	},
-	"compatibility_flags": [
-		"nodejs_compat"
-	]
+	}
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
