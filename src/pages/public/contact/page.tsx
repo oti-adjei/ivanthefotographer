@@ -33,17 +33,16 @@ export default function ContactPage() {
     setSubmitStatus('idle');
 
     try {
-      const formBody = new URLSearchParams();
-      Object.entries(formData).forEach(([key, value]) => {
-        formBody.append(key, value);
-      });
-
-      const response = await fetch('https://readdy.ai/api/form/d584eavahj0hkf71i310', {
+      const response = await fetch(`https://statikform.com/api/f/${import.meta.env.VITE_STATIKFORM_ID}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: formBody.toString(),
+        body: JSON.stringify({
+          ...formData,
+          replyTo: formData.email,
+          _to: import.meta.env.VITE_CONTACT_EMAIL,
+        }),
       });
 
       if (response.ok) {
