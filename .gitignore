@@ -29,3 +29,14 @@ dist-ssr
 !.dev.vars.example
 .env*
 !.env.example
+
+# Optional npm cache directory
+.npm
+# Optional eslint cache
+.eslintcache
+#DS_Store
+.DS_Store
+*.DS_Store
+# Mac System files
+.AppleDouble
+.LSOverride

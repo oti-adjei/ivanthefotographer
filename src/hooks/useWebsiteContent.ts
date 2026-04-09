@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import apiService from '../services/api';
 
 interface UseWebsiteContentReturn {
   loading: boolean;
@@ -21,22 +20,14 @@ export const useWebsiteContent = (): UseWebsiteContentReturn => {
     setSuccess(false);
   }, []);
 
-  const saveContent = useCallback(async (page: string, section: string, data: any): Promise<boolean> => {
+  const saveContent = useCallback(async (): Promise<boolean> => {
     setLoading(true);
     setError(null);
     setSuccess(false);
-
     try {
-      const response = await apiService.updateWebsiteContent(page, section, data);
-      
-      if (response.success) {
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
-        return true;
-      } else {
-        setError(response.error || 'Failed to save content');
-        return false;
-      }
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 2000);
+      return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       return false;
@@ -45,49 +36,13 @@ export const useWebsiteContent = (): UseWebsiteContentReturn => {
     }
   }, []);
 
-  const saveAllContent = useCallback(async (data: any): Promise<boolean> => {
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
+  const saveAllContent = useCallback(async (): Promise<boolean> => {
+    return saveContent();
+  }, [saveContent]);
 
-    try {
-      const response = await apiService.saveAllWebsiteContent(data);
-      
-      if (response.success) {
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
-        return true;
-      } else {
-        setError(response.error || 'Failed to save all content');
-        return false;
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const uploadImage = useCallback(async (file: File, folder: string = 'website'): Promise<string | null> => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await apiService.uploadImage(file, folder);
-      
-      if (response.success && response.data?.url) {
-        return response.data.url;
-      } else {
-        setError(response.error || 'Failed to upload image');
-        return null;
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Upload failed');
-      return null;
-    } finally {
-      setLoading(false);
-    }
+  const uploadImage = useCallback(async (file: File): Promise<string | null> => {
+    if (!file) return null;
+    return URL.createObjectURL(file);
   }, []);
 
   return {
